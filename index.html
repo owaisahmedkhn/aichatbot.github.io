@@ -6,45 +6,137 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
-	<h2>GPA Calculator</h2>
-	<input type="number" id="gpa" name = "gpa" required="required"/>
-	<input type="button" onclick="GPACalc()" name="btn" id="btn" value="check" />
+
+
+    Enter City name: <input type="text" id="cityName" placeholder="Enter City">
+
+    <!-- City Name: <input type="text" id="cityName" placeholder="Enter your city name"> -->
+    <br>
+    <button onclick="think()">Click</button>
+
+    <h1 id="resulta"></h1>
+
+
+
+
     <script>
 
-		function GPACalc(){
-		
-			let grade = '';
-			grade = document.getElementById("gpa").value;
+		let cityName = "London";
+ axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=5993cc5b5587b10f03375a32422fd080&units=metric`)
+ //axios.get(`http://api.openweathermap.org/data/2.5/find?mode=json&type=like&cnt=10`)
+                 .then(function (response) {
+                    let result = response.data
 
-			if (grade < 40) {
+                   console.log("result: ", result.main);
 
-				console.log("Unfortunately you are failed.");
+                    //REST OF YOUR CODE GOES HERE
 
-			} else if (grade >= 40 && grade <= 50) {
+                })
+                .catch(function (error) {
+                    // handle error
+                     console.log(error);
+                })
 
-				console.log("Your Grade is D");
+        // && - logical AND - binary operator
+        // e.g:     true && true = true 
+        // need true both sides to return true, otherwise return false
 
-			}else if (grade >= 50 && grade <= 60) {
+        // || - logical OR - binary operator
+        // e.g:     false || false = false
+        // need false both sides to return false, other wise return true
 
-				console.log("Your Grade is C");
 
-			}else if (grade >= 60 && grade <= 70) {
+        // ! - logical NOT - unary operator
+        // e.g:     !false = true
+        // need operand only right side, simply negate the value in bolean
 
-				console.log("Your Grade is B");
+        function think() {
 
-			}else if (grade >= 70 && grade <= 80) {
+            // let cityName = document.getElementById("cityName").value
 
-				console.log("Your Grade is A");
+            // // Make a request for a user with a given ID  
+            // axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=5993cc5b5587b10f03375a32422fd080&units=metric`)
+            //     .then(function (response) {
+            //         let result = response.data
 
-			} else if (grade > 80) {
+            //         console.log("result: ", result);
 
-				console.log("Your Grade is A+");
+            //         REST OF YOUR CODE GOES HERE
 
-			}
-		}
+            //     })
+            //     .catch(function (error) {
+            //         // handle error
+            //         console.log(error);
+            //     })
+			
+			
+			let cityName = document.getElementById("cityName").value;
+ axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=5993cc5b5587b10f03375a32422fd080&units=metric`)
+ //axios.get(`http://api.openweathermap.org/data/2.5/find?mode=json&type=like&cnt=10`)
+                 .then(function (response) {
+                    let result = response.data
+
+					var temp = result.main.temp;
+            var minTemp = result.main.temp_min;
+            var maxTemp = result.main.temp_max;
+            var resulta = document.getElementById("resulta");
+            // var maxTemp = 25;
+            // var perp = 25; // 0 - 100
+
+
+            if ((temp < -10) || (minTemp < -10)) {
+
+                resulta.innerText = "dont go out its too cold";
+
+            } else if (temp > 35 || maxTemp > 35) {
+
+                resulta.innerText = "Dont go outside its too hot";
+
+            } else if (
+                (temp >= -10 && temp <= 5) ||
+                (minTemp >= -10 && minTemp <= 5)
+            ) {
+
+                resulta.innerText = "carry coat and be care full";
+
+            } else if (
+                (temp > 5 && temp <= 20)
+                || (minTemp > 5 && minTemp <= 20)
+            ) {
+
+                resulta.innerText = "carry jacket with you";
+
+            }
+
+            else if (temp > 20 && temp <= 35) {
+
+                resulta.innerText = "Dont carry jacket";
+
+            }
+                  // console.log("result: ", result);
+
+                    //REST OF YOUR CODE GOES HERE
+
+                })
+                .catch(function (error) {
+                    // handle error
+                     resulta.innerText = error;;
+                })
+
+
+            
+				document.getElementById("cityName").value = "";
+
+        }
+
+
+
+
+
 
 
 
