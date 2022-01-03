@@ -6,143 +6,101 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	
+	
+	<style>
+#resulta {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#resulta td, #resulta th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align:center;
+}
+
+#resulta tr:nth-child(even){background-color: #f2f2f2;}
+
+#resulta tr:hover {background-color: #ddd;}
+
+#resulta th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #04AA6D;
+  color: white;
+}
+h1{
+	text-align:center;
+}
+</style>
+
 </head>
 
 <body>
 
 
-    Enter City name: <input type="text" id="cityName" placeholder="Enter City">
+    Enter number whome table you want to see <input type="number" id="tablenum" placeholder="Enter table you want to see" value="5"/><br>
+	From number<input type="number" id="tablenum_from" placeholder="Enter table start number" value="1" /><br>
+	To number <input type="number" id="tablenum_to" placeholder="Enter table end number" value="10" />
 
-    <!-- City Name: <input type="text" id="cityName" placeholder="Enter your city name"> -->
+   
     <br>
-    <button onclick="think()">Click</button>
-
-    <h1 id="resulta"></h1>
-
+    <button onclick="think()">Click</button><br>
+	<h1>Table</h1><br>
+    <table id="resulta"></table>
 
 
 
     <script>
 
-		let cityName = "London";
- axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=5993cc5b5587b10f03375a32422fd080&units=metric`)
- //axios.get(`http://api.openweathermap.org/data/2.5/find?mode=json&type=like&cnt=10`)
-                 .then(function (response) {
-                    let result = response.data
 
-                   console.log("result: ", result.main);
-
-                    //REST OF YOUR CODE GOES HERE
-
-                })
-                .catch(function (error) {
-                    // handle error
-                     console.log(error);
-                })
-
-        // && - logical AND - binary operator
-        // e.g:     true && true = true 
-        // need true both sides to return true, otherwise return false
-
-        // || - logical OR - binary operator
-        // e.g:     false || false = false
-        // need false both sides to return false, other wise return true
-
-
-        // ! - logical NOT - unary operator
-        // e.g:     !false = true
-        // need operand only right side, simply negate the value in bolean
-
+			
         function think() {
+			var table= "";
+			var resulta = document.getElementById("resulta");
+			resulta.innerHTML = "";
 
-            // let cityName = document.getElementById("cityName").value
-
-            // // Make a request for a user with a given ID  
-            // axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=5993cc5b5587b10f03375a32422fd080&units=metric`)
-            //     .then(function (response) {
-            //         let result = response.data
-
-            //         console.log("result: ", result);
-
-            //         REST OF YOUR CODE GOES HERE
-
-            //     })
-            //     .catch(function (error) {
-            //         // handle error
-            //         console.log(error);
-            //     })
+			
+			let tablenum = Number(document.getElementById("tablenum").value);
+			let tablenum_from = Number(document.getElementById("tablenum_from").value);
+			let tablenum_to = Number(document.getElementById("tablenum_to").value);
 			
 			
-			let cityName = document.getElementById("cityName").value;
- axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=5993cc5b5587b10f03375a32422fd080&units=metric`)
- //axios.get(`http://api.openweathermap.org/data/2.5/find?mode=json&type=like&cnt=10`)
-                 .then(function (response) {
-                    let result = response.data
+			console.log("table from " + tablenum_from);
+			console.log("table to " + tablenum_to);
+			
+			table+= "<tr>"+
+					"<th>Number</th>"+
+					"<th>Operator</th>"+
+					"<th>Number</th>"+
+					"<th>Equals</th>"+
+					"<th>Result</th>"+
+					"</tr>";
+			for (let i=tablenum_from; i<=tablenum_to; i++)
+			{
+				result = tablenum * i;
+				table+= '<tr>' + 
+							'<td> ' + tablenum + ' </td>' +
+							'<td> X </td>' + 
+							'<td> ' + i + ' </td>' + 
+							'<td> = </td>' + 
+							'<td> ' + result + ' </td>' + 
+						'</tr>';
+						console.log("i =>  " + i);
+						
+			}
+			//table += "</tbody>";
+			
+			 
 
-					var temp = result.main.temp;
-            var minTemp = result.main.temp_min;
-            var maxTemp = result.main.temp_max;
-            var resulta = document.getElementById("resulta");
-            // var maxTemp = 25;
-            // var perp = 25; // 0 - 100
-
-
-            if ((temp < -10) || (minTemp < -10)) {
-
-                resulta.innerText = "dont go out its too cold";
-
-            } else if (temp > 35 || maxTemp > 35) {
-
-                resulta.innerText = "Dont go outside its too hot";
-
-            } else if (
-                (temp >= -10 && temp <= 5) ||
-                (minTemp >= -10 && minTemp <= 5)
-            ) {
-
-                resulta.innerText = "carry coat and be care full";
-
-            } else if (
-                (temp > 5 && temp <= 20)
-                || (minTemp > 5 && minTemp <= 20)
-            ) {
-
-                resulta.innerText = "carry jacket with you";
-
-            }
-
-            else if (temp > 20 && temp <= 35) {
-
-                resulta.innerText = "Dont carry jacket";
-
-            }
-                  // console.log("result: ", result);
-
-                    //REST OF YOUR CODE GOES HERE
-
-                })
-                .catch(function (error) {
-                    // handle error
-                     resulta.innerText = error;;
-                })
-
-
-            
-				document.getElementById("cityName").value = "";
-
-        }
-
-
-
-
-
-
-
-
-
-
-
+             resulta.innerHTML = table;
+			
+			//console.log(table);
+		}
+		
+		
     </script>
 
 
