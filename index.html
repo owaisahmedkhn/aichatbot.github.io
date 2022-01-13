@@ -5,12 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-	<script>
-		
-		
-	</script>
-	
+    <title>Document</title>	
 	<style>
 	table input{
 		width:60px;
@@ -26,10 +21,6 @@
   padding: 8px;
   text-align:center;
 }
-
-#resulta tr:nth-child(even){background-color: #f2f2f2;}
-
-#resulta tr:hover {background-color: #ddd;}
 
 #resulta th {
   padding-top: 12px;
@@ -56,50 +47,79 @@ h1{
 	background:#fff;
 	color:#000;
 }
+#input_result th{
+	padding: 10px;
+    color: #000;
+    width: 92%;
+    margin: 0;
+	background:none;
+}
+#input_result th input{
+	padding: 10px;
+    color: #000;
+    width: 92%;
+    margin: 0;
+}
 </style>
 
 </head>
 
 <body>
-	<h1>Matrix Summation</h1>
+	<h1>Calculator</h1>
 	<br/>
-	<table id="resulta">
+		<table id="resulta">
 		<tr>
 			<td>
 				<table id="arr1">  
 				</table>
 			</td>
-			<td>
-				<table> <tr> <button> + </button> </tr> </table>
-			</td>
-			<td>
-				<table id="arr2">  
-				</table>
-			</td>
-			<td>
-				<table> <tr> <button onclick="addArray('arr1','arr2','sum_arr')" id="calculate">Calculate</button> </tr> </table>
-			</td>
-			<td>
-				<table id="sum_arr"></table>
-			</td>
+			
 		</tr>
 	</table>
-
-
     <script>
-
+	
+		var calcArray = [
+				[1,2,3,4,5],
+				[6,7,8,9,0],
+				["+","-","/","*","="]
+			];
+		var resulttext = " ";
+		var arrn1 = [0 , 0];
+		var valx = '';
+		var operator = '+';
+		
+		function operations(optr,vala){
+			if(optr=="+"){
+				arrn1[1] = arrn1[1] + vala;
+			}
+			if(optr=="-"){
+				arrn1[1] = arrn1[1] - vala;
+			}
+			if(optr=="/"){
+				arrn1[1] = arrn1[1] / vala;
+			}
+			if(optr=="*"){
+				arrn1[1] = arrn1[1] * vala;
+			}
+			valx = '';
+			document.getElementById("result").value = arrn1[1];
+			
+		}
+		
 		function createArray(idName){
 			var arr_row = 3;
-			var arr_cols = 3;
+			var arr_cols = 5;
 			var matrix1 = '';
-			matrix1 += '<tr><th colspan="3"> Matrix</th><tr>';
+			var count = 1;
+			matrix1 += '<tr><th colspan="5"> Calculator</th><tr>';
+			matrix1 += '<tr id="input_result"><th colspan="5" > <input id="result" value="0" placeholder="calculation result is dispalyed here" disabled="disabled" /> </th><tr>';
 			var num1 = 1;
 			for(i=0; i < arr_row; i++){
 				
 				matrix1 += '<tr>';
 				for(j=0; j < arr_cols; j++){
-					num1 = Math.floor((Math.random() * 100) + 1);
-					matrix1 += '<td> <input type="number" value="' + num1 + '" class="' + idName + '" /></td>';
+					matrix1 += '<td> <input type="button" value="' + calcArray[i][j] + '" class="' + idName + '" onclick="calc(this.value)" /></td>';
+					count++;
 				}
 				matrix1 += '</tr>';
 			}
@@ -107,33 +127,20 @@ h1{
 		}
 		
 		createArray('arr1');
-		createArray('arr2');
-		
-		function addArray(arr1,arr2,idName){
-			var calc_arr1 = document.getElementsByClassName(arr1);
-			var calc_arr2 = document.getElementsByClassName(arr2);
-			var lengthArry = calc_arr1.length;
-			var matrixRows = 3;
-			var matrix1 = '';
-			if( lengthArry === calc_arr1.length){
-			matrix1 += '<tr><th colspan="3"> Result</th><tr>';
-				matrix1 += '<tr>';
-				for(i=0; i < lengthArry; i++){
-					num1 = Number(calc_arr1[i].value) + Number(calc_arr2[i].value);
-					matrix1 += '<td> ' + num1 + '</td>';
-					if ( (i+1) % matrixRows === 0){
-						matrix1 += '</tr><tr>';
-					}
-					
-				}
-				matrix1 += '</tr>';
-				
-				document.getElementById(idName).innerHTML = matrix1;
-			}
-			else{
-				console.log( "The matrices must be of same size" );
+		var operator_array = ["+","+"];
+		function calc(valn){
+			valx += valn;
+			console.log(valx);
+			operator_array[1] = !Number(valn) && valn !=0 ? valn : operator_array[0] ; 
+			resulttext = Number( valx );
+			document.getElementById("result").value = resulttext;
+
+			if( !Number(valn) && valn !=0 ){ 
+				operations( operator_array[0],Number( valx.slice(0, -1) ) ); 
+				operator_array[0] = operator_array[1];
 			}	
 		}
+
     </script>
 
 
