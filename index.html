@@ -7,74 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>	
 	<style>
-	table input{
-		width:60px;
-	}
-#resulta {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  margin: 25px auto;
-}
-
-#resulta td, #resulta th {
-  min-width: 60px;
-  padding: 8px;
-  text-align:center;
-}
-
-#resulta th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: #04AA6D;
-  color: white;
-}
-h1{
-	text-align:center;
-}
-#calculate {
-    min-width: 120px;
-    padding: 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    color: #fff;
-    margin: 10px;
-    border: 0;
-    font-weight: bold;
-    font-size: 18px;
-    background: #000;
-}
-#calculate:hover{
-	background:#fff;
-	color:#000;
-}
-#input_result th{
-	padding: 10px;
-    color: #000;
-    width: 92%;
-    margin: 0;
-	background:none;
-}
-#input_result th input{
-	padding: 10px;
-    color: #000;
-    width: 92%;
-    margin: 0;
-}
-</style>
-
+		input[type="button"]{
+			min-width:60px;
+			min-height:30px;
+			margin:5px;
+		}
+		#result {
+			padding: 7px;
+			width: 100%;
+			box-sizing: border-box;
+			margin: 5px 0;
+		}
+	</style>
 </head>
 
 <body>
 	<h1>Calculator</h1>
-	<br/>
-		<table id="resulta">
-		<tr>
-			<td>
-				<table id="arr1">  
-				</table>
-			</td>
-			
-		</tr>
+	
+	<table id="arr1">  
 	</table>
     <script>
 	
@@ -83,38 +33,16 @@ h1{
 				[6,7,8,9,0],
 				["+","-","/","*","="]
 			];
-		var resulttext = " ";
-		var arrn1 = [0 , 0];
-		var valx = '';
-		var operator = '+';
-		
-		function operations(optr,vala){
-			if(optr=="+"){
-				arrn1[1] = arrn1[1] + vala;
-			}
-			if(optr=="-"){
-				arrn1[1] = arrn1[1] - vala;
-			}
-			if(optr=="/"){
-				arrn1[1] = arrn1[1] / vala;
-			}
-			if(optr=="*"){
-				arrn1[1] = arrn1[1] * vala;
-			}
-			valx = '';
-			document.getElementById("result").value = arrn1[1];
-			
-		}
-		
+
 		function createArray(idName){
-			var arr_row = 3;
+			var arr_rows = 3;
 			var arr_cols = 5;
 			var matrix1 = '';
 			var count = 1;
-			matrix1 += '<tr><th colspan="5"> Calculator</th><tr>';
+			//matrix1 += '<tr><th colspan="5"> Calculator</th><tr>';
 			matrix1 += '<tr id="input_result"><th colspan="5" > <input id="result" value="0" placeholder="calculation result is dispalyed here" disabled="disabled" /> </th><tr>';
 			var num1 = 1;
-			for(i=0; i < arr_row; i++){
+			for(i=0; i < arr_rows; i++){
 				
 				matrix1 += '<tr>';
 				for(j=0; j < arr_cols; j++){
@@ -127,18 +55,47 @@ h1{
 		}
 		
 		createArray('arr1');
-		var operator_array = ["+","+"];
+		
+		
+		var resulttext = " ";
+		var valx = '';
+		var calcnum = 0;
+		var operator = "+";
+		
 		function calc(valn){
-			valx += valn;
-			console.log(valx);
-			operator_array[1] = !Number(valn) && valn !=0 ? valn : operator_array[0] ; 
-			resulttext = Number( valx );
-			document.getElementById("result").value = resulttext;
-
-			if( !Number(valn) && valn !=0 ){ 
-				operations( operator_array[0],Number( valx.slice(0, -1) ) ); 
-				operator_array[0] = operator_array[1];
-			}	
+			
+			let valx1 = '';
+			valx += isNaN( Number(valn) )? '' : valn;
+			document.getElementById("result").value = valx;
+			
+			if( valn == "+" || valn == "-" || valn == "/" || valn == "*" || valn == "="){
+				
+				switch(operator){
+					case "+":
+						valx1 = isNaN( Number(valx) ) ? 0 : valx;
+						calcnum = calcnum + Number(valx1);
+						break;
+					case "-":
+						valx1 = isNaN( Number(valx) ) ? 0 : valx;
+						calcnum = calcnum - Number(valx1);
+						break;
+					case "*":
+						valx1 = isNaN( Number(valx) ) ? 1 : valx;
+						calcnum = calcnum * Number(valx1);
+					break;
+					case "/":
+						valx1 = isNaN( Number(valx) ) ? 1 : valx;
+						calcnum = calcnum / Number(valx1);
+						break;
+					case "=":
+						break;
+				}
+				
+				valx = '';
+				operator = valn;
+				
+				document.getElementById("result").value = calcnum;
+			}
 		}
 
     </script>
