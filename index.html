@@ -12,7 +12,7 @@
 			min-height:30px;
 			margin:5px;
 		}
-		#result {
+		#result, #calc_view {
 			padding: 7px;
 			width: 100%;
 			box-sizing: border-box;
@@ -39,8 +39,8 @@
 			var arr_cols = 5;
 			var matrix1 = '';
 			var count = 1;
-			//matrix1 += '<tr><th colspan="5"> Calculator</th><tr>';
-			matrix1 += '<tr id="input_result"><th colspan="5" > <input id="result" value="0" placeholder="calculation result is dispalyed here" disabled="disabled" /> </th><tr>';
+			matrix1 += '<tr id="input_result"><th colspan="2" > Status </th> <th colspan="3" > <input id="calc_view" value="0" placeholder="calculation result is dispalyed here" disabled="disabled" /> </th><tr>';
+			matrix1 += '<tr id="input_result"><th colspan="2" > Answer</th> <th colspan="3" > <input id="result" value="0" placeholder="calculation result is dispalyed here" disabled="disabled" /> </th><tr>';
 			var num1 = 1;
 			for(i=0; i < arr_rows; i++){
 				
@@ -61,12 +61,15 @@
 		var valx = '';
 		var calcnum = 0;
 		var operator = "+";
+		let valview = '';
 		
 		function calc(valn){
-			
+		
 			let valx1 = '';
 			valx += isNaN( Number(valn) )? '' : valn;
-			document.getElementById("result").value = valx;
+			resulttext = resulttext + valn;
+			
+			document.getElementById("result").value = valx + " " ;
 			
 			if( valn == "+" || valn == "-" || valn == "/" || valn == "*" || valn == "="){
 				
@@ -88,18 +91,23 @@
 						calcnum = calcnum / Number(valx1);
 						break;
 					case "=":
+						//
 						break;
 				}
 				
+				resulttext = ( valn == "=" ) ? calcnum : resulttext;
+				 resulttext = ( valn != operator && valn != "=" ) ? calcnum + valn : resulttext;
+				
 				valx = '';
 				operator = valn;
-				
+
 				document.getElementById("result").value = calcnum;
 			}
+			
+			document.getElementById("calc_view").value = resulttext;
 		}
 
     </script>
-
 
 </body>
 
